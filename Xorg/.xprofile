@@ -1,0 +1,23 @@
+# Stop screen from going blink
+xset s off
+xset -dpms
+xset s noblank
+# Faster key repeat and delay
+xset r rate 210 40
+
+# Input method module settings
+export GTK_IM_MODULE="fcitx"
+export QT_IM_MODULE="fcitx"
+export XMODIFIERS="@im=fcitx"
+fcitx5 &
+
+# Set the wallpaper
+if [ -f "$HOME/.fehbg" ]; then
+	$HOME/.fehbg
+fi
+
+# Start Network Manager Applet
+nm-applet --indicator &
+
+# Start compositor
+picom &
