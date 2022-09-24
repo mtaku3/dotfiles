@@ -19,6 +19,7 @@ append_path () {
 }
 
 append_path "$HOME/.local/bin"
+append_path "$HOME/.cargo/bin"
 
 # Unload our profile API functions
 unset -f append_path
