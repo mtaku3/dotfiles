@@ -162,6 +162,9 @@ mode "(S)uspend, (L)ogout, (R)eboot, (P)oweroff" {
 	bindsym Escape mode "default"
 }
 
+# lockscreen
+bindsym $mod+Control+l exec i3lock -t -i ~/Pictures/lockscreen.png
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
@@ -196,4 +199,4 @@ bar {
 }
 
 # Set wallpaper / background image
-exec --no-startup-id ~/.fehbg
+exec --no-startup-id ~/.fehb
