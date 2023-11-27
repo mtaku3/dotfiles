@@ -17,6 +17,13 @@ return {
                 telemetry = { enable = false },
               },
             },
+            pylsp = {
+              plugins = {
+                autopep8 = { enabled = false },
+                flake8 = { enabled = true },
+                yapf = { enabled = false },
+              },
+            },
           },
           on_attach = function(_, bufnr)
             local nmap = function(keys, func, desc)
@@ -48,9 +55,10 @@ return {
               print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
             end, "Workspace List Folders")
 
-            vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-              vim.lsp.buf.format()
-            end, { desc = "Format current buffer with LSP" })
+            -- Using discrete formatter istead of LSP ones, uncomment if you want to use LSP formatter
+            -- vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
+            --   vim.lsp.buf.format()
+            -- end, { desc = "Format current buffer with LSP" })
           end
         },
         config = function(_, opts)
