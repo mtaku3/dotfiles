@@ -7,7 +7,7 @@ return {
           require("formatter.filetypes.lua").stylua,
         },
       })
-      vim.keymap.set({ "n", "v" }, "<leader>f", ":Format<CR>", { desc = "Format current buffer" })
+      vim.keymap.set("n", "<leader>f", ":Format<CR>", { desc = "Format current buffer" })
     end,
   },
 }
