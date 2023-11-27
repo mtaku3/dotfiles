@@ -199,4 +199,4 @@ bar {
 }
 
 # Set wallpaper / background image
-exec --no-startup-id ~/.fehb
+exec --no-startup-id ~/.fehbg
