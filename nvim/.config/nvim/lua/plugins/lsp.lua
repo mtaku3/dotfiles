@@ -25,6 +25,7 @@ return {
 							},
 						},
 						texlab = {},
+						biome = {},
 					},
 					on_attach = function(_, bufnr)
 						local nmap = function(keys, func, desc)
