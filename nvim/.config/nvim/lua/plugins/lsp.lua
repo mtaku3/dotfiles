@@ -24,6 +24,7 @@ return {
 								yapf = { enabled = false },
 							},
 						},
+						texlab = {},
 					},
 					on_attach = function(_, bufnr)
 						local nmap = function(keys, func, desc)
