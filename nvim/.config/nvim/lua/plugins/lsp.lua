@@ -43,7 +43,7 @@ local efmTools = {
 		formatStdin = true,
 		prefix = "eslint_d",
 		lintSource = "efm/eslint_d",
-		lintCommand = "eslint_d --no-color --stdin-filename '${INPUT}' --stdin",
+		lintCommand = "eslint_d --no-color --format visualstudio --stdin-filename '${INPUT}' --stdin",
 		lintStdin = true,
 		lintFormats = { "%f(%l,%c): %trror %m", "%f(%l,%c): %tarning %m" },
 		lintIgnoreExitCode = true,
@@ -67,6 +67,7 @@ local efmLanguages = {
 	typescript = { efmTools["eslint_d"], efmTools["prettierd"] },
 	typescriptreact = { efmTools["eslint_d"], efmTools["prettierd"] },
 	["typescript.tsx"] = { efmTools["eslint_d"], efmTools["prettierd"] },
+	json = { efmTools["prettierd"] },
 }
 
 return {
