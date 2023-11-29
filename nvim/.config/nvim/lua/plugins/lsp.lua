@@ -1,3 +1,74 @@
+local efmTools = {
+	stylua = {
+		formatCanRange = true,
+		formatCommand = "stylua --color Never ${--range-start:charStart} ${--range-end:charEnd} -",
+		formatStdin = true,
+		rootMarkers = { "stylua.toml", ".stylua.toml" },
+	},
+	isort = {
+		formatCommand = "isort --quiet -",
+		formatStdin = true,
+		rootMarkers = {
+			".isort.cfg",
+			"pyproject.toml",
+			"setup.cfg",
+			"setup.py",
+		},
+	},
+	black = {
+		formatCommand = "black --no-color -q -",
+		formatStdin = true,
+	},
+	prettierd = {
+		formatCanRange = true,
+		formatCommand = "prettierd '${INPUT}' ${--range-start=charStart} ${--range-end=charEnd} ${--tab-width=tabSize} ${--use-tabs=!insertSpaces}",
+		formatStdin = true,
+		rootMarkers = {
+			".prettierrc",
+			".prettierrc.json",
+			".prettierrc.js",
+			".prettierrc.yml",
+			".prettierrc.yaml",
+			".prettierrc.json5",
+			".prettierrc.mjs",
+			".prettierrc.cjs",
+			".prettierrc.toml",
+			"prettier.config.js",
+			"prettier.config.cjs",
+			"prettier.config.mjs",
+		},
+	},
+	eslint_d = {
+		formatCommand = "eslint_d --fix-to-stdout --stdin-filename '${INPUT}' --stdin",
+		formatStdin = true,
+		prefix = "eslint_d",
+		lintSource = "efm/eslint_d",
+		lintCommand = "eslint_d --no-color --stdin-filename '${INPUT}' --stdin",
+		lintStdin = true,
+		lintFormats = { "%f(%l,%c): %trror %m", "%f(%l,%c): %tarning %m" },
+		lintIgnoreExitCode = true,
+		rootMarkers = {
+			".eslintrc",
+			".eslintrc.cjs",
+			".eslintrc.js",
+			".eslintrc.json",
+			".eslintrc.yaml",
+			".eslintrc.yml",
+			"package.json",
+		},
+	},
+}
+local efmLanguages = {
+	lua = { efmTools["stylua"] },
+	python = { efmTools["isort"], efmTools["black"] },
+	javascript = { efmTools["eslint_d"], efmTools["prettierd"] },
+	javascriptreact = { efmTools["eslint_d"], efmTools["prettierd"] },
+	["javascript.jsx"] = { efmTools["eslint_d"], efmTools["prettierd"] },
+	typescript = { efmTools["eslint_d"], efmTools["prettierd"] },
+	typescriptreact = { efmTools["eslint_d"], efmTools["prettierd"] },
+	["typescript.tsx"] = { efmTools["eslint_d"], efmTools["prettierd"] },
+}
+
 return {
 	{
 		"neovim/nvim-lspconfig",
@@ -6,22 +77,41 @@ return {
 				"williamboman/mason-lspconfig.nvim",
 				dependencies = {
 					{ "williamboman/mason.nvim", config = true },
+					"creativenull/efmls-configs-nvim",
 					"hrsh7th/nvim-cmp",
 					"nvim-telescope/telescope.nvim",
 				},
 				opts = {
 					servers = {
+						efm = {
+							init_options = {
+								documentFormatting = true,
+								documentRangeFormatting = true,
+								hover = false,
+								documentSymbol = false,
+								codeAction = true,
+								completion = false,
+							},
+							filetypes = vim.tbl_keys(efmLanguages),
+							servers = {
+								languages = efmLanguages,
+							},
+						},
 						lua_ls = {
-							Lua = {
-								workspace = { checkThirdParty = false },
-								telemetry = { enable = false },
+							servers = {
+								Lua = {
+									workspace = { checkThirdParty = false },
+									telemetry = { enable = false },
+								},
 							},
 						},
 						pylsp = {
-							plugins = {
-								autopep8 = { enabled = false },
-								flake8 = { enabled = true },
-								yapf = { enabled = false },
+							servers = {
+								plugins = {
+									autopep8 = { enabled = false },
+									flake8 = { enabled = true },
+									yapf = { enabled = false },
+								},
 							},
 						},
 						texlab = {},
@@ -57,10 +147,9 @@ return {
 							print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 						end, "Workspace List Folders")
 
-						-- Using discrete formatter istead of LSP ones, uncomment if you want to use LSP formatter
-						-- vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-						--   vim.lsp.buf.format()
-						-- end, { desc = "Format current buffer with LSP" })
+						nmap("<leader>f", function()
+							vim.lsp.buf.format({ name = "efm" })
+						end, "Format current buffer with LSP")
 					end,
 				},
 				config = function(_, opts)
@@ -72,9 +161,10 @@ return {
 					manson_lspconfig.setup_handlers({
 						function(server_name)
 							require("lspconfig")[server_name].setup({
+								init_options = (opts.servers[server_name] or {}).init_options,
 								capabilities = opts.capabilities,
 								on_attach = opts.on_attach,
-								settings = opts.servers[server_name],
+								settings = (opts.servers[server_name] or {}).servers,
 								filetypes = (opts.servers[server_name] or {}).filetypes,
 							})
 						end,
