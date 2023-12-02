@@ -100,3 +100,6 @@ export EDITOR="nvim"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# Set GPG TTY
+export GPG_TTY=$(tty)
