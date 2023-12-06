@@ -1,0 +1,31 @@
+* {
+	all: unset;
+}
+
+.Bar {
+	font-family: "JetBrainsMono NerdFont";
+	color: #b8b8b8;
+	background-color: #2b2e37;
+	font-size: 16px;
+	font-weight: 600;
+
+	padding: 4px 16px;
+}
+
+.NetworkStatus, .NetworkUsage, .CPUUsage, .RAMUsage, .BatteryUsage {
+	padding: 8px;
+	border-radius: 4px;
+	background-color: #3b3e47;
+}
+
+.Workspaces {
+	button {
+		padding: 4px;
+		color: #d8d8d8;
+		border-radius: 4px;
+	}
+
+	button.active {
+		background-color: #3b3e47;
+	}
+}

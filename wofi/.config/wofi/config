@@ -1,0 +1,5 @@
+key_up=Control_L-p
+key_down=Control_L-n
+key_exit=Control_L-c
+key_copy=
+term=kitty

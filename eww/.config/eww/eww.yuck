@@ -1,0 +1,88 @@
+(defvar height 40)
+
+(defpoll time :interval "1s" `date +%H:%M:%S`)
+(defpoll date :interval "1s" `date '+%Y/%m/%d'`)
+(defpoll network :interval "1s" "scripts/network.py")
+(deflisten workspaces "scripts/workspaces.py")
+
+(defwidget Time []
+    (box :orientation "h" :valign "center"
+	(label :text "${time}")
+    )
+)
+
+(defwidget Date []
+    (box :orientation "h" :valign "center"
+	(label :text "${date}")
+    )
+)
+
+(defwidget NetworkStatus []
+    (box :class "NetworkStatus" :orientation "h" :valign "center" :space-evenly false :spacing 4 :height {height}
+	(label :text {network.type == "wifi" ? " " : (network.type == "ethernet" ? "󰈀 " : " ")})
+	(label :text "${network.ssid ?: ''}")
+    )
+)
+
+(defwidget NetworkUsage []
+    (box :class "NetworkUsage" :orientation "h" :space-evenly false :spacing 8 :height {height}
+	(box :orientation "h" :valign "center" :space-evenly false :spacing 4
+	    (label :text "󰛶 ")
+	    (label :text {network.transmitted ?: ""})
+	)
+	(box :orientation "h" :valign "center" :space-evenly false :spacing 4
+	    (label :text "󰛴 ")
+	    (label :text {network.received ?: ""})
+	)
+    )
+)
+
+(defwidget CPUUsage []
+    (box :class "CPUUsage" :orientation "h" :valign "center" :space-evenly false :spacing 4 :height {height}
+	(label :text " ")
+	(label :text "${round(EWW_CPU.avg, 1)}%")
+    )
+)
+
+(defwidget RAMUsage []
+    (box :class "RAMUsage" :orientation "h" :valign "center" :space-evenly false :spacing 4 :height {height}
+	(label :text " ")
+	(label :text "${round(EWW_RAM.used_mem / (1024 * 1024 * 1024), 1)}GiB")
+    )
+)
+
+(defwidget BatteryUsage []
+    (box :class "BatteryUsage" :orientation "h" :valign "center" :space-evenly false :spacing 4 :height {height}
+	(label :text " ")
+	(label :text "${round(EWW_BATTERY?.BAT0.capacity, 0)}%")
+    )
+)
+
+(defwidget Workspaces [monitorId]
+    (box :class "Workspaces" :orientation "h" :space-evenly true :halign "start" :spacing 8
+	(for id in {workspaces["${monitorId}"]?.workspaces}
+	    (button :onclick "hyprctl dispatch workspace ${id}" :height {height} :width {height} :class "${workspaces["${monitorId}"]?.activeWorkspace == id ? "active" : ""}" "${id}")
+	)
+    )
+)
+
+(defwidget Bar [monitorId]
+    (box :class "Bar" :orientation "h" :space-evenly false
+	(box :orientation "h" :space-evenly false :spacing 8 :halign "start"
+	    (Workspaces :monitorId {monitorId})
+	)
+	(box :orientation "h" :space-evenly false :spacing 8 :halign "end" :hexpand true
+	    (NetworkStatus)
+	    (NetworkUsage)
+	    (BatteryUsage)
+	    (CPUUsage)
+	    (RAMUsage)
+	    (Date)
+	    (Time)
+	)
+    )
+)
+
+(defwindow Bar0 :monitor 0 :exclusive true :geometry (geometry :x "0%" :y "0%" :width "100%" :anchor "top center")
+    (Bar :monitorId 0)
+)
