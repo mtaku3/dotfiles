@@ -1,0 +1,23 @@
+font=JetBrainsMono Nerd Font 12
+width=300
+height=300
+margin=10
+border-color=#D3D7CF
+ignore-timeout=1
+format=%a\n<b>%s</b>\n%b
+
+[urgency=low]
+background-color=#222222D8
+text-color=#888888
+default-timeout=10000
+
+[urgency=normal]
+background-color=#2B2E37D8
+text-color=#FFFFFF
+default-timeout=10000
+
+[urgency=critical]
+background-color=#900000D8
+text-color=#FFFFFF
+border-color=#FF0000
+default-timeout=0
