@@ -117,6 +117,10 @@ return {
 						},
 						texlab = {},
 						tsserver = {},
+						grammarly = {
+							autostart = false,
+							filetypes = { "Markdown", "Text", "tex" },
+						},
 					},
 					on_attach = function(_, bufnr)
 						local nmap = function(keys, func, desc)
@@ -167,6 +171,7 @@ return {
 								on_attach = opts.on_attach,
 								settings = (opts.servers[server_name] or {}).servers,
 								filetypes = (opts.servers[server_name] or {}).filetypes,
+								autostart = (opts.servers[server_name] or {}).autostart,
 							})
 						end,
 					})
