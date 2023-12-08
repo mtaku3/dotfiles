@@ -41,3 +41,6 @@ vim.opt.wrap = false
 
 -- No backup
 vim.opt.backup = false
+
+-- Local config
+vim.o.exrc = true
