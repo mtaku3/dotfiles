@@ -36,6 +36,7 @@ return {
 							filetypes = { "Markdown", "Text", "tex" },
 						},
 						ruby_ls = {},
+						tailwindcss = {},
 					},
 				},
 				config = function(_, opts)
