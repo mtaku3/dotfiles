@@ -37,6 +37,7 @@ return {
 						},
 						ruby_ls = {},
 						tailwindcss = {},
+						rust_analyzer = {},
 					},
 				},
 				config = function(_, opts)
