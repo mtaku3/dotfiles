@@ -37,7 +37,15 @@ return {
 						},
 						ruby_ls = {},
 						tailwindcss = {},
-						rust_analyzer = {},
+						rust_analyzer = {
+							settings = {
+								["rust-analyzer"] = {
+									check = {
+										command = "clippy",
+									},
+								},
+							},
+						},
 					},
 				},
 				config = function(_, opts)
