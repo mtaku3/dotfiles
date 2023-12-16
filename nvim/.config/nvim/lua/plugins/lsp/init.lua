@@ -35,7 +35,7 @@ return {
 							autostart = false,
 							filetypes = { "Markdown", "Text", "tex" },
 						},
-						ruby_ls = {},
+						solargraph = {},
 						tailwindcss = {},
 						rust_analyzer = {
 							settings = {
