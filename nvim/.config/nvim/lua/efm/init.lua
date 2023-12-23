@@ -11,8 +11,9 @@ local config = {
 	},
 }
 
-function M.setup(settings)
-	require("plugins.lsp.utils").setup("efm", vim.tbl_extend("error", config, settings))
+function M.setup(languages, other_settings)
+	settings = vim.tbl_extend("error", { settings = { languages = languages } }, other_settings or {}, config)
+	require("plugins.lsp.utils").setup("efm", settings)
 end
 
 return M
