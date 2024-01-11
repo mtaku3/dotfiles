@@ -44,6 +44,7 @@ local default_settings = {
 				require("efm.settings.eslint_d").formatter,
 				require("efm.settings.prettierd").formatter,
 			},
+			yaml = { require("efm.settings.prettierd").formatter },
 		},
 	},
 }
