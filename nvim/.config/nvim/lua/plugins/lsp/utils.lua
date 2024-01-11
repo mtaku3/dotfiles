@@ -31,7 +31,7 @@ local on_attach = function(_, bufnr)
 	end, "Workspace List Folders")
 
 	nmap("<leader>f", function()
-		vim.lsp.buf.format({ name = "efm" })
+		vim.lsp.buf.format({ name = "null-ls", timeout = 10000 })
 	end, "Format current buffer with LSP")
 end
 

@@ -51,8 +51,7 @@ return {
 				config = function(_, opts)
 					local mason_lspconfig = require("mason-lspconfig")
 
-					mason_lspconfig.setup({ ensure_installed = vim.list_extend({ "efm" }, vim.tbl_keys(opts.servers)) })
-					require("efm").setup()
+					mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(opts.servers) })
 					for name, config in pairs(opts.servers) do
 						require("plugins.lsp.utils").setup(name, config)
 					end
